@@ -16,9 +16,9 @@ export default function RevealScreen({ bundle, onNewDiscovery, onStartActivity }
   const { theme, emoji, fact, joke, experiment } = bundle
 
   return (
-    <main className="min-h-screen overflow-hidden bg-gradient-to-br from-rainbow-blue/60 via-curio-background to-rainbow-yellow/50 p-6 text-curio-text md:p-10">
-      <div className="pointer-events-none absolute left-[-3rem] top-28 h-36 w-36 rounded-full bg-rainbow-orange/50 blur-2xl" />
-      <div className="pointer-events-none absolute right-[-2rem] top-8 h-44 w-44 rounded-full bg-rainbow-pink/40 blur-2xl" />
+    <main className="relative min-h-screen w-full bg-gradient-to-br from-rainbow-blue/60 via-curio-background to-rainbow-yellow/50 p-6 text-curio-text md:p-10">
+      <div className="pointer-events-none absolute left-12 top-28 h-36 w-36 rounded-full bg-rainbow-orange/50 blur-2xl" />
+      <div className="pointer-events-none absolute right-12 top-8 h-44 w-44 rounded-full bg-rainbow-pink/40 blur-2xl" />
 
       <section className="relative mx-auto max-w-4xl">
         <button
