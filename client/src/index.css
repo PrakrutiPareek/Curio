@@ -6,3 +6,36 @@ body {
   margin: 0;
   min-width: 320px;
 }
+
+@keyframes card-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes punchline-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(0.5rem) scale(0.98);
+  }
+  70% {
+    transform: translateY(-0.2rem) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-card-reveal {
+  animation: card-reveal 400ms ease-out both;
+}
+
+.animate-punchline-reveal {
+  animation: punchline-reveal 350ms ease-out both;
+}
