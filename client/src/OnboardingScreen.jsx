@@ -78,7 +78,7 @@ export default function OnboardingScreen({ onBundleReady }) {
 
   if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-rainbow-blue/70 via-curio-background to-rainbow-pink/50 p-6 text-center text-curio-text md:p-10">
+      <main className="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-rainbow-blue/70 via-curio-background to-rainbow-pink/50 p-6 text-center text-curio-text md:p-10">
         <div className="relative w-full max-w-md rounded-[2.5rem] border-4 border-white bg-curio-background/95 p-6 shadow-2xl shadow-rainbow-pink/30 backdrop-blur md:p-10">
           <div className="absolute left-10 top-10 h-10 w-10 animate-ping rounded-full bg-rainbow-orange/80" />
           <div className="relative mx-auto flex h-28 w-28 animate-bounce items-center justify-center rounded-full bg-rainbow-purple text-6xl shadow-lg shadow-rainbow-purple/30">✨</div>
@@ -94,9 +94,9 @@ export default function OnboardingScreen({ onBundleReady }) {
   }
 
   return (
-    <main className="min-h-screen overflow-hidden bg-gradient-to-br from-rainbow-blue/70 via-curio-background to-rainbow-yellow/50 p-6 text-curio-text md:p-10">
-      <div className="pointer-events-none absolute left-[-3rem] top-28 h-36 w-36 rounded-full bg-rainbow-orange/60 blur-2xl" />
-      <div className="pointer-events-none absolute right-[-2rem] top-8 h-44 w-44 rounded-full bg-rainbow-pink/40 blur-2xl" />
+    <main className="relative min-h-screen w-full bg-gradient-to-br from-rainbow-blue/70 via-curio-background to-rainbow-yellow/50 p-6 text-curio-text md:p-10">
+      <div className="pointer-events-none absolute left-12 top-28 h-36 w-36 rounded-full bg-rainbow-orange/60 blur-2xl" />
+      <div className="pointer-events-none absolute right-12 top-8 h-44 w-44 rounded-full bg-rainbow-pink/40 blur-2xl" />
       <section className="relative mx-auto max-w-4xl">
         <header className="mb-6 text-center">
           <div className="mx-auto w-fit rounded-[2rem] border-4 border-curio-text bg-curio-background px-7 py-3 shadow-[0_7px_0_#FB923C] md:px-10 md:py-4">

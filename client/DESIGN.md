@@ -18,8 +18,9 @@ Use the Tailwind theme tokens so Curio screens share the same playful visual lan
 
 ## Spacing and components
 
-- Use `p-6 md:p-10` for page containers and `p-5` for cards.
+- Use `p-6 md:p-10` for page containers and `p-5` for standard cards. Use `p-6 md:p-8` for featured reveal cards with longer reading content.
 - Use `space-y-6` between major sections, `gap-4` in control grids, and `mt-4` between a heading and its controls.
 - Cycle the rainbow colours across related choice controls. Each control has a tinted version of its assigned colour by default, a fully saturated assigned colour on hover, and a matching full-colour selected state.
 - Selected controls use a bolder border and `scale-105`; use dark text on tinted backgrounds and white text on saturated hover and selected states. Apply `transition-colors duration-200` to these colour changes.
 - Primary actions may use a rainbow gradient, with a visible hover lift and a `rainbow-blue` focus ring.
+- For content-heavy screens, use a two-column layout at `md` and above: a primary column stacks smaller cards with `space-y-6`, while the secondary column holds one featured card that stretches to the primary column's height. Stack the columns vertically on smaller screens.
