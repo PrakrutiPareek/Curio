@@ -24,15 +24,15 @@ export default function RevealScreen({ bundle, onNewDiscovery, onStartActivity }
         <button
           type="button"
           onClick={onNewDiscovery}
-          className="absolute right-0 top-0 rounded-full border-2 border-rainbow-purple bg-rainbow-purple/20 px-4 py-3 text-sm font-extrabold text-curio-text shadow-md transition-colors duration-200 hover:bg-rainbow-purple hover:text-white focus:outline-none focus:ring-4 focus:ring-rainbow-blue/50"
+          className="absolute right-0 top-0 whitespace-nowrap rounded-full border-2 border-rainbow-purple bg-rainbow-purple/20 px-4 py-3 text-sm font-extrabold text-curio-text shadow-md transition-colors duration-200 hover:bg-rainbow-purple hover:text-white focus:outline-none focus:ring-4 focus:ring-rainbow-blue/50"
         >
           New Discovery ↻
         </button>
 
-        <header className="animate-card-reveal pr-32 text-center sm:pr-40">
+        <header className="animate-card-reveal flex flex-col items-center pt-16 text-center md:pr-40 md:pt-0">
           <p className="text-sm font-extrabold uppercase tracking-[0.2em] text-rainbow-pink">Your discovery box</p>
-          <h1 className="mt-4 text-4xl font-black leading-tight tracking-[-0.06em] text-rainbow-purple md:text-5xl">
-            Today&apos;s theme: {theme} <span aria-hidden="true">{emoji}</span>
+          <h1 className="mt-4 max-w-full break-words text-2xl font-black leading-tight tracking-[-0.04em] text-rainbow-purple sm:text-3xl md:text-4xl lg:text-5xl">
+            Today&apos;s theme: {theme} <span className="inline-block" aria-hidden="true">{emoji}</span>
           </h1>
         </header>
 
