@@ -1,11 +1,8 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Navigate, useNavigate} from "react-router-dom";
 import {useCurio} from "./CurioContext.jsx";
 import AskMeAnything from "./AskMeAnything.jsx";
-import {
-  getCompletedExperiments,
-  incrementCompletedExperiments,
-} from "./completionBadge.js";
+import {BADGE_CATEGORIES, earnBadge, getEarnedBadges} from "./badgeStorage.js";
 
 const stepStyles = [
   "border-rainbow-red bg-rainbow-red/20 text-red-800",
@@ -18,11 +15,19 @@ const stepStyles = [
 ];
 
 export default function ActivityScreen() {
-  const {bundle, age} = useCurio();
+  const {bundle, age, interest} = useCurio();
   const navigate = useNavigate();
   const [whyVisible, setWhyVisible] = useState(false);
   const [isDone, setIsDone] = useState(false);
-  const [completedCount, setCompletedCount] = useState(getCompletedExperiments);
+  const [earnedCount, setEarnedCount] = useState(() => getEarnedBadges().length);
+  const [newBadge, setNewBadge] = useState(null);
+
+  // Auto-dismiss toast after 3 s
+  useEffect(() => {
+    if (!newBadge) return;
+    const id = setTimeout(() => setNewBadge(null), 3000);
+    return () => clearTimeout(id);
+  }, [newBadge]);
 
   if (!bundle) return <Navigate to="/" replace />;
 
@@ -30,7 +35,14 @@ export default function ActivityScreen() {
 
   function markDone() {
     if (isDone) return;
-    setCompletedCount(incrementCompletedExperiments());
+    if (interest) {
+      const isNew = earnBadge(interest);
+      if (isNew) {
+        const cat = BADGE_CATEGORIES.find((c) => c.key === interest);
+        setNewBadge(cat ? `${cat.label} ${cat.icon}` : interest);
+        setEarnedCount(getEarnedBadges().length);
+      }
+    }
     setIsDone(true);
   }
 
@@ -44,13 +56,17 @@ export default function ActivityScreen() {
           <button
             type="button"
             onClick={() => navigate("/reveal")}
-            className="absolute left-0 top-0 rounded-full border-2 border-rainbow-purple bg-rainbow-purple/20 px-4 py-3 text-sm font-extrabold text-curio-text shadow-md transition-colors duration-200 hover:bg-rainbow-purple hover:text-white focus:outline-none focus:ring-4 focus:ring-rainbow-blue/50"
+            className="absolute left-0 top-0 z-10 rounded-full border-2 border-rainbow-purple bg-rainbow-purple/20 px-4 py-3 text-sm font-extrabold text-curio-text shadow-md transition-colors duration-200 hover:bg-rainbow-purple hover:text-white focus:outline-none focus:ring-4 focus:ring-rainbow-blue/50"
           >
             ← Back
           </button>
-          <p className="absolute right-0 top-0 rounded-full border-2 border-rainbow-pink bg-rainbow-pink/20 px-4 py-3 text-sm font-extrabold text-pink-800 shadow-md">
-            Badges: {completedCount}
-          </p>
+          <button
+            type="button"
+            onClick={() => navigate("/badges")}
+            className="absolute right-0 top-0 z-10 rounded-full border-2 border-rainbow-pink bg-rainbow-pink/20 px-4 py-3 text-sm font-extrabold text-pink-800 shadow-md transition-colors duration-200 hover:bg-rainbow-pink hover:text-white focus:outline-none focus:ring-4 focus:ring-rainbow-blue/50"
+          >
+            Badges: {earnedCount} 🏅
+          </button>
 
           <header className="flex flex-col items-center pt-16 text-center">
             <p className="text-sm font-extrabold uppercase tracking-[0.2em] text-rainbow-pink">
@@ -165,6 +181,17 @@ export default function ActivityScreen() {
       </main>
 
       <AskMeAnything theme={theme} age={age} />
+
+      {/* New-badge toast */}
+      {newBadge && (
+        <div className="pointer-events-none fixed bottom-24 left-0 right-0 z-50 flex justify-center px-4">
+          <div className="animate-toast-in rounded-[2rem] border-2 border-rainbow-yellow bg-rainbow-yellow px-6 py-4 text-center shadow-xl">
+            <p className="text-lg font-extrabold text-amber-900">
+              New badge earned: {newBadge}! 🎉
+            </p>
+          </div>
+        </div>
+      )}
     </>
   );
 }

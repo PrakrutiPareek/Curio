@@ -15,7 +15,7 @@ function RevealCard({children, className, delay = 0}) {
 }
 
 export default function RevealScreen() {
-  const {bundle, setBundle, age, setAge} = useCurio();
+  const {bundle, setBundle, age, setAge, setInterest} = useCurio();
   const navigate = useNavigate();
   const [punchlineVisible, setPunchlineVisible] = useState(false);
 
@@ -30,11 +30,22 @@ export default function RevealScreen() {
         <div className="pointer-events-none absolute right-12 top-8 h-44 w-44 rounded-full bg-rainbow-pink/40 blur-2xl" />
 
         <section className="relative mx-auto max-w-5xl">
+          {/* Badges link — top-left */}
+          <button
+            type="button"
+            onClick={() => navigate("/badges")}
+            className="absolute left-0 top-0 z-10 rounded-full border-2 border-rainbow-pink bg-rainbow-pink/20 px-4 py-3 text-sm font-extrabold text-pink-800 shadow-md transition-colors duration-200 hover:bg-rainbow-pink hover:text-white focus:outline-none focus:ring-4 focus:ring-rainbow-blue/50"
+          >
+            Badges 🏅
+          </button>
+
+          {/* New Discovery — top-right */}
           <button
             type="button"
             onClick={() => {
               setBundle(null);
               setAge(null);
+              setInterest(null);
               navigate("/");
             }}
             className="absolute right-0 top-0 z-10 whitespace-nowrap rounded-full border-2 border-rainbow-purple bg-rainbow-purple/20 px-4 py-3 text-sm font-extrabold text-curio-text shadow-md transition-colors duration-200 hover:bg-rainbow-purple hover:text-white focus:outline-none focus:ring-4 focus:ring-rainbow-blue/50"
@@ -42,7 +53,7 @@ export default function RevealScreen() {
             New Discovery ↻
           </button>
 
-          <header className="animate-card-reveal flex flex-col items-center pt-16 text-center md:pr-40 md:pt-0">
+          <header className="animate-card-reveal flex flex-col items-center pt-16 text-center md:px-40 md:pt-0">
             <p className="text-sm font-extrabold uppercase tracking-[0.2em] text-rainbow-pink">
               Your discovery box
             </p>

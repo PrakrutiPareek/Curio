@@ -78,7 +78,7 @@ function ChoiceButton({active, color, children, className = "", ...props}) {
 }
 
 export default function OnboardingScreen() {
-  const {setBundle, setAge: setCurioAge} = useCurio();
+  const {setBundle, setAge: setCurioAge, setInterest: setCurioInterest} = useCurio();
   const navigate = useNavigate();
   const [age, setAge] = useState(null);
   const [interest, setInterest] = useState(null);
@@ -105,6 +105,7 @@ export default function OnboardingScreen() {
             "We could not open your discovery box. Please try again!",
         );
       setCurioAge(age);
+      setCurioInterest(interest);
       setBundle(payload);
       navigate("/reveal");
     } catch (requestError) {
