@@ -41,11 +41,34 @@ body {
 }
 
 @keyframes celebration {
-  0% { opacity: 0; transform: translateY(0.75rem) scale(0.8); }
-  60% { opacity: 1; transform: translateY(-0.4rem) scale(1.1); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
+  0% {
+    opacity: 0;
+    transform: translateY(0.75rem) scale(0.8);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-0.4rem) scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .animate-celebration {
   animation: celebration 500ms ease-out both;
+}
+
+@keyframes ama-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-ama-float {
+  animation: ama-float 2.8s ease-in-out infinite;
 }
