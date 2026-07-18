@@ -39,3 +39,13 @@ body {
 .animate-punchline-reveal {
   animation: punchline-reveal 350ms ease-out both;
 }
+
+@keyframes celebration {
+  0% { opacity: 0; transform: translateY(0.75rem) scale(0.8); }
+  60% { opacity: 1; transform: translateY(-0.4rem) scale(1.1); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.animate-celebration {
+  animation: celebration 500ms ease-out both;
+}
