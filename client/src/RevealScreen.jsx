@@ -15,7 +15,7 @@ function RevealCard({children, className, delay = 0}) {
 }
 
 export default function RevealScreen() {
-  const {bundle, setBundle, age} = useCurio();
+  const {bundle, setBundle, age, setAge} = useCurio();
   const navigate = useNavigate();
   const [punchlineVisible, setPunchlineVisible] = useState(false);
 
@@ -34,9 +34,10 @@ export default function RevealScreen() {
             type="button"
             onClick={() => {
               setBundle(null);
+              setAge(null);
               navigate("/");
             }}
-            className="absolute right-0 top-0 whitespace-nowrap rounded-full border-2 border-rainbow-purple bg-rainbow-purple/20 px-4 py-3 text-sm font-extrabold text-curio-text shadow-md transition-colors duration-200 hover:bg-rainbow-purple hover:text-white focus:outline-none focus:ring-4 focus:ring-rainbow-blue/50"
+            className="absolute right-0 top-0 z-10 whitespace-nowrap rounded-full border-2 border-rainbow-purple bg-rainbow-purple/20 px-4 py-3 text-sm font-extrabold text-curio-text shadow-md transition-colors duration-200 hover:bg-rainbow-purple hover:text-white focus:outline-none focus:ring-4 focus:ring-rainbow-blue/50"
           >
             New Discovery ↻
           </button>
