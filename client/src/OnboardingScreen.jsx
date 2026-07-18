@@ -78,7 +78,11 @@ function ChoiceButton({active, color, children, className = "", ...props}) {
 }
 
 export default function OnboardingScreen() {
-  const {setBundle, setAge: setCurioAge, setInterest: setCurioInterest} = useCurio();
+  const {
+    setBundle,
+    setAge: setCurioAge,
+    setInterest: setCurioInterest,
+  } = useCurio();
   const navigate = useNavigate();
   const [age, setAge] = useState(null);
   const [interest, setInterest] = useState(null);

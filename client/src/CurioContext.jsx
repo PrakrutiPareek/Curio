@@ -8,7 +8,9 @@ export function CurioProvider({children}) {
   const [interest, setInterest] = useState(null);
 
   return (
-    <CurioContext.Provider value={{bundle, setBundle, age, setAge, interest, setInterest}}>
+    <CurioContext.Provider
+      value={{bundle, setBundle, age, setAge, interest, setInterest}}
+    >
       {children}
     </CurioContext.Provider>
   );

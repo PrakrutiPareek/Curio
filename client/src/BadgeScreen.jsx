@@ -4,14 +4,23 @@ import {BADGE_CATEGORIES, getEarnedBadges, hasBadge} from "./badgeStorage.js";
 // Cycle the rainbow palette across the 9 badge cards
 const CARD_COLORS = [
   {tint: "border-rainbow-red bg-rainbow-red/20", label: "text-red-800"},
-  {tint: "border-rainbow-orange bg-rainbow-orange/20", label: "text-orange-800"},
+  {
+    tint: "border-rainbow-orange bg-rainbow-orange/20",
+    label: "text-orange-800",
+  },
   {tint: "border-rainbow-yellow bg-rainbow-yellow/25", label: "text-amber-800"},
   {tint: "border-rainbow-green bg-rainbow-green/20", label: "text-green-800"},
   {tint: "border-rainbow-blue bg-rainbow-blue/20", label: "text-sky-800"},
-  {tint: "border-rainbow-purple bg-rainbow-purple/20", label: "text-violet-800"},
+  {
+    tint: "border-rainbow-purple bg-rainbow-purple/20",
+    label: "text-violet-800",
+  },
   {tint: "border-rainbow-pink bg-rainbow-pink/20", label: "text-pink-800"},
   {tint: "border-rainbow-red bg-rainbow-red/20", label: "text-red-800"},
-  {tint: "border-rainbow-orange bg-rainbow-orange/20", label: "text-orange-800"},
+  {
+    tint: "border-rainbow-orange bg-rainbow-orange/20",
+    label: "text-orange-800",
+  },
 ];
 
 export default function BadgeScreen() {

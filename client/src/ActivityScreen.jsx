@@ -19,7 +19,9 @@ export default function ActivityScreen() {
   const navigate = useNavigate();
   const [whyVisible, setWhyVisible] = useState(false);
   const [isDone, setIsDone] = useState(false);
-  const [earnedCount, setEarnedCount] = useState(() => getEarnedBadges().length);
+  const [earnedCount, setEarnedCount] = useState(
+    () => getEarnedBadges().length,
+  );
   const [newBadge, setNewBadge] = useState(null);
 
   // Auto-dismiss toast after 3 s
