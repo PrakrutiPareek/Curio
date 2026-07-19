@@ -1,8 +1,10 @@
 import {useEffect, useState} from "react";
 import {Navigate, useNavigate} from "react-router-dom";
+import {PDFDownloadLink} from "@react-pdf/renderer";
 import {useCurio} from "./CurioContext.jsx";
 import AskMeAnything from "./AskMeAnything.jsx";
 import {BADGE_CATEGORIES, earnBadge, getEarnedBadges} from "./badgeStorage.js";
+import PrintableActivity from "./PrintableActivity.jsx";
 
 const stepStyles = [
   "border-rainbow-red bg-rainbow-red/20 text-red-800",
@@ -34,6 +36,10 @@ export default function ActivityScreen() {
   if (!bundle) return <Navigate to="/" replace />;
 
   const {experiment, theme} = bundle;
+  const pdfSlug = theme
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
 
   function markDone() {
     if (isDone) return;
@@ -169,14 +175,26 @@ export default function ActivityScreen() {
                   🎉 ✨ 🎊
                 </div>
               )}
-              <button
-                type="button"
-                onClick={markDone}
-                disabled={isDone}
-                className="rounded-3xl bg-gradient-to-r from-rainbow-purple via-rainbow-pink to-rainbow-red px-8 py-5 text-xl font-black text-white shadow-lg shadow-rainbow-pink/30 transition hover:-translate-y-0.5 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-rainbow-blue/50 disabled:cursor-default disabled:opacity-80"
-              >
-                {isDone ? "Experiment complete! 🎉" : "Mark as done!"}
-              </button>
+              <div className="flex flex-col items-center gap-4">
+                <button
+                  type="button"
+                  onClick={markDone}
+                  disabled={isDone}
+                  className="rounded-3xl bg-gradient-to-r from-rainbow-purple via-rainbow-pink to-rainbow-red px-8 py-5 text-xl font-black text-white shadow-lg shadow-rainbow-pink/30 transition hover:-translate-y-0.5 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-rainbow-blue/50 disabled:cursor-default disabled:opacity-80"
+                >
+                  {isDone ? "Experiment complete! 🎉" : "Mark as done!"}
+                </button>
+
+                <PDFDownloadLink
+                  document={<PrintableActivity bundle={bundle} />}
+                  fileName={`curio-${pdfSlug}-activity.pdf`}
+                  className="rounded-3xl border-2 border-rainbow-blue bg-rainbow-blue/20 px-6 py-3 text-base font-extrabold text-sky-800 shadow-md transition-colors duration-200 hover:bg-rainbow-blue hover:text-white focus:outline-none focus:ring-4 focus:ring-rainbow-blue/50"
+                >
+                  {({loading}) =>
+                    loading ? "Preparing..." : "Print this activity"
+                  }
+                </PDFDownloadLink>
+              </div>
             </div>
           </div>
         </section>
