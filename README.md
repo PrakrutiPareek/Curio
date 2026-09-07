@@ -14,5 +14,17 @@ npm run dev
 ```
 
 The React app runs at `http://localhost:5173` and proxies `/api` requests to the
-Express server at `http://localhost:3001`. Add a provider key to `server/.env`
-when AI-powered bundle generation is implemented.
+local API adapter at `http://localhost:3001`. Copy `.env.example` to `.env`
+and set `OPENAI_API_KEY` to enable AI-powered generation locally.
+
+## Deploy to Vercel
+
+1. Push this repository to GitHub, then import it from the Vercel dashboard.
+2. In the Vercel project, open **Settings → Environment Variables** and add
+   `OPENAI_API_KEY` with your OpenAI API key.
+3. Deploy. Vercel builds the React app from `client/` and automatically serves
+   the root `api/` serverless functions at `/api/generate-bundle` and
+   `/api/ask-anything`.
+
+No client configuration is needed: the frontend uses relative `/api/...` URLs,
+which work in both local development and the deployed app.
