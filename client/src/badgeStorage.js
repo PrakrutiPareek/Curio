@@ -31,11 +31,16 @@ export function getEarnedBadges() {
  */
 export function earnBadge(category) {
   if (!category || typeof category !== "string") return false;
+  if (typeof window === "undefined") return false;
   const key = category.toLowerCase();
   const earned = getEarnedBadges();
   if (earned.includes(key)) return false;
-  window.localStorage.setItem(BADGES_KEY, JSON.stringify([...earned, key]));
-  return true;
+  try {
+    window.localStorage.setItem(BADGES_KEY, JSON.stringify([...earned, key]));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 /** Returns true if the badge for the given category key has been earned. */

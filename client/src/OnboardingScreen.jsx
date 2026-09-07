@@ -2,6 +2,10 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useCurio} from "./CurioContext.jsx";
 
+const FRIENDLY_DISCOVERY_ERROR =
+  "Oops! Our robot brain is taking a nap. Try again?";
+const DISCOVERY_TIMEOUT_MS = 15000;
+
 const ageRanges = [
   {label: "4–5", age: 5, detail: "Little explorer"},
   {label: "6–9", age: 8, detail: "Curious creator"},
@@ -96,25 +100,29 @@ export default function OnboardingScreen() {
     setLoading(true);
     setError("");
 
+    let timeoutId;
     try {
+      const controller = new AbortController();
+      timeoutId = setTimeout(() => controller.abort(), DISCOVERY_TIMEOUT_MS);
       const response = await fetch("/api/generate-bundle", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({age, interest, minutes}),
+        signal: controller.signal,
       });
+      clearTimeout(timeoutId);
+
       const payload = await response.json().catch(() => null);
-      if (!response.ok || !payload)
-        throw new Error(
-          payload?.error ||
-            "We could not open your discovery box. Please try again!",
-        );
+      if (!response.ok || !payload) throw new Error("DISCOVERY_FAILED");
+
       setCurioAge(age);
       setCurioInterest(interest);
       setBundle(payload);
       navigate("/reveal");
-    } catch (requestError) {
-      setError(requestError.message);
+    } catch {
+      setError(FRIENDLY_DISCOVERY_ERROR);
     } finally {
+      if (timeoutId) clearTimeout(timeoutId);
       setLoading(false);
     }
   }
@@ -253,12 +261,19 @@ export default function OnboardingScreen() {
           </section>
 
           {error && (
-            <p
+            <div
               role="alert"
-              className="rounded-2xl bg-rose-100 p-5 font-semibold text-rose-800"
+              className="space-y-3 rounded-2xl bg-rose-100 p-5 font-semibold text-rose-800"
             >
-              {error}
-            </p>
+              <p>{error}</p>
+              <button
+                type="button"
+                onClick={handleDiscover}
+                className="rounded-full border-2 border-rose-300 bg-white px-4 py-2 text-sm font-extrabold text-rose-800 transition-colors duration-200 hover:bg-rose-50 focus:outline-none focus:ring-4 focus:ring-rose-300/50"
+              >
+                Try again
+              </button>
+            </div>
           )}
           <button
             type="button"

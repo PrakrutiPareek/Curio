@@ -1,5 +1,8 @@
 import {useState, useRef, useEffect} from "react";
 
+const FRIENDLY_AMA_ERROR = "Oops! Our robot brain is taking a nap. Try again?";
+const AMA_TIMEOUT_MS = 15000;
+
 const bubbleStyles = [
   {
     card: "border-rainbow-blue bg-rainbow-blue/20",
@@ -23,6 +26,8 @@ export default function AskMeAnything({theme, age}) {
   const [question, setQuestion] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [validation, setValidation] = useState("");
+  const [lastQuestion, setLastQuestion] = useState("");
   const [history, setHistory] = useState([]); // [{ question, answer }], max 3, newest first
   const inputRef = useRef(null);
   const panelRef = useRef(null);
@@ -61,29 +66,45 @@ export default function AskMeAnything({theme, age}) {
   async function handleSubmit(e) {
     e.preventDefault();
     const q = question.trim();
+    if (loading) return;
+    if (!q) {
+      setValidation("Tell me your question first, then I can help!");
+      return;
+    }
+
+    await submitQuestion(q);
+  }
+
+  async function submitQuestion(q) {
     if (!q || loading) return;
 
     setLoading(true);
     setError("");
+    setValidation("");
+    setLastQuestion(q);
+
+    let timeoutId;
     try {
+      const controller = new AbortController();
+      timeoutId = setTimeout(() => controller.abort(), AMA_TIMEOUT_MS);
       const res = await fetch("/api/ask-anything", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({question: q, theme, age}),
+        signal: controller.signal,
       });
+
       const data = await res.json().catch(() => null);
-      if (!res.ok || !data) {
-        throw new Error(
-          data?.error || "Could not get an answer. Please try again!",
-        );
-      }
+      if (!res.ok || !data) throw new Error("AMA_FAILED");
+
       setHistory((prev) =>
         [{question: q, answer: data.answer}, ...prev].slice(0, 3),
       );
       setQuestion("");
-    } catch (err) {
-      setError(err.message);
+    } catch {
+      setError(FRIENDLY_AMA_ERROR);
     } finally {
+      if (timeoutId) clearTimeout(timeoutId);
       setLoading(false);
     }
   }
@@ -209,19 +230,55 @@ export default function AskMeAnything({theme, age}) {
               ref={inputRef}
               rows={3}
               value={question}
-              onChange={(e) => setQuestion(e.target.value)}
+              onChange={(e) => {
+                setQuestion(e.target.value);
+                if (validation) setValidation("");
+                if (error) setError("");
+              }}
               disabled={loading}
               placeholder={`Ask anything about ${theme || "today's topic"}…`}
               className="w-full resize-none rounded-2xl border-2 border-rainbow-blue bg-white p-4 text-lg font-semibold text-curio-text placeholder-slate-400 shadow-inner transition-colors duration-200 focus:border-rainbow-purple focus:outline-none focus:ring-4 focus:ring-rainbow-blue/30 disabled:opacity-50"
             />
 
-            {error && (
+            {loading && (
+              <div className="rounded-2xl border-2 border-rainbow-blue bg-rainbow-blue/10 p-4">
+                <p className="text-sm font-extrabold uppercase tracking-[0.14em] text-sky-700">
+                  Curio is thinking...
+                </p>
+                <div className="mt-3 space-y-2" aria-hidden="true">
+                  <div className="h-3 w-3/4 animate-pulse rounded-full bg-sky-200" />
+                  <div className="h-3 w-full animate-pulse rounded-full bg-sky-200" />
+                  <div className="h-3 w-5/6 animate-pulse rounded-full bg-sky-200" />
+                </div>
+              </div>
+            )}
+
+            {validation && (
               <p
                 role="alert"
-                className="rounded-2xl border-2 border-rainbow-red bg-rainbow-red/15 p-3 text-sm font-bold text-red-800"
+                className="rounded-2xl border-2 border-rainbow-yellow bg-rainbow-yellow/20 p-3 text-sm font-bold text-amber-900"
               >
-                {error}
+                {validation}
               </p>
+            )}
+
+            {error && (
+              <div
+                role="alert"
+                className="space-y-3 rounded-2xl border-2 border-rainbow-red bg-rainbow-red/15 p-3 text-sm font-bold text-red-800"
+              >
+                <p>{error}</p>
+                <button
+                  type="button"
+                  onClick={() =>
+                    submitQuestion(lastQuestion || question.trim())
+                  }
+                  disabled={loading || (!lastQuestion && !question.trim())}
+                  className="rounded-full border-2 border-red-300 bg-white px-4 py-2 font-extrabold text-red-800 transition-colors duration-200 hover:bg-red-50 focus:outline-none focus:ring-4 focus:ring-red-300/50 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  Try again
+                </button>
+              </div>
             )}
 
             <button
