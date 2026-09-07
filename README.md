@@ -6,16 +6,23 @@ Built for the OpenAI Codex Hackathon (July 2026).
 
 ## Development
 
-Install all project dependencies, then start the frontend and API together:
+Install all project dependencies, then start the Vercel development environment:
 
 ```bash
 npm run install:all
-npm run dev
+vercel dev
 ```
 
-The React app runs at `http://localhost:5173` and proxies `/api` requests to the
-local API adapter at `http://localhost:3001`. Copy `.env.example` to `.env`
-and set `OPENAI_API_KEY` to enable AI-powered generation locally.
+`vercel dev` runs the Vite frontend and the root `api/` Vercel Functions on one
+local origin (normally `http://localhost:3000`). Copy `.env.example` to
+`.env.local` and set `OPENAI_API_KEY` to enable AI-powered generation locally.
+The client uses relative `/api/...` paths, so no proxy or separate Express
+server is required. The root package intentionally has no `npm run dev` script:
+run `vercel dev` directly so Vercel can host both the frontend and functions.
+
+For a linked Vercel project, add `OPENAI_API_KEY` to its **Development**
+environment. `vercel dev` downloads those variables automatically; run
+`vercel pull` first if you need to work offline.
 
 ## Deploy to Vercel
 
