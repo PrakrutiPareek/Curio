@@ -43,12 +43,12 @@ than a weekend prototype.
 
 ## Tech Stack
 
-**Frontend:** React (Vite), Tailwind CSS, React Router
-**Backend:** Vercel Serverless Functions (Node.js)
-**AI:** OpenAI API (`gpt-4.1-nano` / `gpt-4o-mini`) for structured content generation, with prompt-engineered JSON schemas and a keyword-based safety filter
-**PDF Export:** `@react-pdf/renderer`
-**Hosting:** Vercel
-**Dev tooling:** Built with OpenAI Codex as the primary coding assistant
+- **Frontend:** React (Vite), Tailwind CSS, React Router
+- **Backend:** Vercel Serverless Functions (Node.js)
+- **AI:** OpenAI API (`gpt-4.1-nano` / `gpt-4o-mini`) for structured content generation, with prompt-engineered JSON schemas and a keyword-based safety filter
+- **PDF Export:** `@react-pdf/renderer`
+- **Hosting:** Vercel
+- **Dev tooling:** Built with OpenAI Codex as the primary coding assistant
 
 ## Architecture notes
 
@@ -128,7 +128,7 @@ URLs, which work in both local development and the deployed app.
 
 ## Credits
 
-Built solo by [Prakruti Pareek] for the OpenAI Codex Hackathon (July 2026),
+Built solo by **Prakruti Pareek** for the OpenAI Codex Hackathon (July 2026),
 using OpenAI Codex as the primary development tool throughout.
 
 ---
